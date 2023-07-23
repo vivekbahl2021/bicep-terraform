@@ -180,4 +180,9 @@ resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/container
     //   throughput: throughput
     // }
   }
+
+
 }
+output dbAccountName string = accountName
+output dbApiVersion string = account.apiVersion
+output dbAccountId string = account.id

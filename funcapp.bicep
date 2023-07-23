@@ -13,7 +13,18 @@ param storageAccountType string = 'Standard_LRS'
 param location string = resourceGroup().location
 
 @description('Location for Application Insights')
-param appInsightsLocation string
+param appInsightsLocation string = location
+
+@description('cosmosDB AccountName')
+param cosmosDBAccountName string
+
+@secure()
+@description('cosmosDB Account Id')
+param cosmosDBAccountId string
+
+@description('cosmosDB apiVersion')
+param cosmosDBApiVersion string
+
 
 @description('The language worker runtime to load in the function app.')
 @allowed([
@@ -21,6 +32,7 @@ param appInsightsLocation string
   'dotnet'
   'java'
 ])
+
 param runtime string = 'dotnet'
 
 var functionAppName = appName
@@ -28,15 +40,18 @@ var hostingPlanName = appName
 var applicationInsightsName = appName
 var storageAccountName = '${uniqueString(resourceGroup().id)}azfunctions'
 var functionWorkerRuntime = runtime
+var cosmosDBKey = listKeys(cosmosDBAccountId, cosmosDBApiVersion).primaryMasterKey
+
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-05-01' = {
   name: storageAccountName
   location: location
+  kind: 'StorageV2'
   sku: {
     name: storageAccountType
   }
-  kind: 'Storage'
   properties: {
+    accessTier: 'Hot'
     supportsHttpsTrafficOnly: true
     defaultToOAuthAuthentication: true
   }
@@ -70,6 +85,10 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
         {
           name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
           value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
+        }
+        {
+          name: 'CosmosDbConnection'
+          value: 'AccountEndpoint=https://${cosmosDBAccountName}.documents.azure.com:443/;AccountKey=${cosmosDBKey}'
         }
         {
           name: 'WEBSITE_CONTENTSHARE'
