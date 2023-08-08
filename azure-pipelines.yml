@@ -7,8 +7,17 @@ trigger: none
 
 pool:
   vmImage: ubuntu-latest
-variables:
-  RG: 'rsgbcp605'
+
+parameters:
+  - name: RG
+    default: rsgbcp605
+    type: string
+    values:
+      - "rsgbcp606"
+      - "rsgbcp607"
+      
+#variables:
+#  RG: 'rsgbcp605'
 
 jobs:
   - job: Deploy
