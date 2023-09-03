@@ -14,13 +14,27 @@ parameters:
     type: string
     values:
       - "rsgbcp606"
-      - "rsgbcp607"
+      - "rsgbcp705"
+  - name: environment
+    displayName: "Environment"
+    default: "dev"
+    type: string
+    values:
+      - "dev"
+      - "test"
+      - "prod"
+  - name: sequenceNumber
+    displayName: "Sequence number to use in resource naming"
+    default: '01'
+  
       
 #variables:
 #  RG: 'rsgbcp605'
 
 jobs:
   - job: Deploy
+    variables:
+    - template: "${{parameters.environment}}/pipelineparams.${{parameters.environment}}.yaml"
     steps:
       - task: AzureResourceManagerTemplateDeployment@3
         displayName: 'Deploy Bicep Files'
