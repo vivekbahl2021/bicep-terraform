@@ -64,6 +64,5 @@ jobs:
           location: 'East US'
           #templateLocation: 'Linked artifact'
           csmFile: ${{variables.bicepFilePath}}
-          deploymentMode: Incremental
-          overrideParameters: >
-            -certificateContent "$(base64String)"
+          deploymentOutputs: deploymentOutputs
+          overrideParameters: certificateContent "$(base64String)"
