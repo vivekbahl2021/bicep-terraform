@@ -66,4 +66,4 @@ jobs:
           csmFile: ${{variables.bicepFilePath}}
           deploymentMode: Incremental
           overrideParameters: >
-            -certificateContent $(base64String)
+            -certificateContent "$(base64String)"
