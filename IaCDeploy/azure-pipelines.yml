@@ -36,7 +36,7 @@ jobs:
     variables:
     - template: "${{parameters.environment}}/pipelineparams.${{parameters.environment}}.yaml"
     - name: bicepFilePath
-      value: "$(Build.SourcesDirectory)/IaCDeployment/main.bicep"
+      value: "$(Build.SourcesDirectory)/IaCDeploy/main.bicep"
 
     steps:
       - task: AzureCLI@2
