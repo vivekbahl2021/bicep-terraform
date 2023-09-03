@@ -1,0 +1,3 @@
+variables:
+  resourceGroupName: rsgbcp705
+  certificateContent: 'abcx'
