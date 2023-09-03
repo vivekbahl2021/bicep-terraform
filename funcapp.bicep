@@ -67,12 +67,22 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2021-03-01' = {
   properties: {}
 }
 
+param certificateContent string
+
 resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
   name: functionAppName
   location: location
   kind: 'functionapp'
   identity: {
     type: 'SystemAssigned'
+  }
+
+  resource publiccerd 'publicCertificates@2022-09-01' ={
+    name: 'ournewcert3'
+    properties:{
+      publicCertificateLocation: 'CurrentUserMy'
+      blob: any(certificateContent)
+    }
   }
   properties: {
     serverFarmId: hostingPlan.id

@@ -10,7 +10,7 @@ module stgModule './cosmosdb.bicep' = {
     location: location
   }
 }
-
+param certificateContent string
 module funcAppModule './funcapp.bicep' = {
   name: 'functionAppDeploy'
   params: {
@@ -19,6 +19,7 @@ module funcAppModule './funcapp.bicep' = {
     cosmosDBAccountName: stgModule.outputs.dbAccountName
     cosmosDBAccountId: stgModule.outputs.dbAccountId
     cosmosDBApiVersion: stgModule.outputs.dbApiVersion
+    certificateContent: certificateContent
   }
 }
 
