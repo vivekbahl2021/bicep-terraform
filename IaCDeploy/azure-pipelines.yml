@@ -10,7 +10,7 @@ pool:
 
 parameters:
   - name: RG
-    default: rsgbcp605
+    default: rsgbcp606
     type: string
     values:
       - "rsgbcp606"
