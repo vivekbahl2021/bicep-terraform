@@ -46,7 +46,7 @@ jobs:
           scriptLocation: 'inlineScript'
           inlineScript: |
             # Read the byte array from a file (replace with your own method)
-            $byteArray = [System.IO.File]::ReadAllBytes("$(Build.SourcesDirectory)/IaCDeployment/portalazure.cer")
+            $byteArray = [System.IO.File]::ReadAllBytes("$(Build.SourcesDirectory)/IaCDeploy/portalazure.cer")
             
             # Convert the byte array to a Base64-encoded string
             $base64String = [System.Convert]::ToBase64String($byteArray)
