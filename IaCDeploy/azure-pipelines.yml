@@ -65,4 +65,4 @@ jobs:
           #templateLocation: 'Linked artifact'
           csmFile: ${{variables.bicepFilePath}}
           deploymentOutputs: deploymentOutputs
-          overrideParameters: certificateContent "$(base64String)"
+          overrideParameters: -certificateContent "$(base64String)"
