@@ -50,6 +50,8 @@ jobs:
             
             # Convert the byte array to a Base64-encoded string
             $base64String = [System.Convert]::ToBase64String($byteArray)
+            Write-Host "##vso[task.setvariable variable=$base64String] $env:certificateContent"
+
       - task: AzureResourceManagerTemplateDeployment@3
         displayName: 'Deploy Bicep Files'
         inputs:
@@ -59,6 +61,8 @@ jobs:
           action: 'Create Or Update Resource Group'
           resourceGroupName: $(RG)
           location: 'East US'
-          templateLocation: 'Linked artifact'
-          csmFile: 'main.bicep'
+          #templateLocation: 'Linked artifact'
+          csmFile: ${{variables.bicepFilePath}}
           deploymentMode: Incremental
+          overrideParameters: >
+            -certificateContent $(base64String)
