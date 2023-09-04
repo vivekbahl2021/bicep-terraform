@@ -77,13 +77,13 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
     type: 'SystemAssigned'
   }
 
-  resource publiccerd 'publicCertificates@2022-09-01' ={
-    name: 'ournewcert3'
-    properties:{
-      publicCertificateLocation: 'CurrentUserMy'
-      blob: any(certificateContent)
-    }
-  }
+  // resource publiccerd 'publicCertificates@2022-09-01' ={
+  //   name: 'ournewcert3'
+  //   properties:{
+  //     publicCertificateLocation: 'CurrentUserMy'
+  //     blob: any(certificateContent)
+  //   }
+  // }
   properties: {
     serverFarmId: hostingPlan.id
     siteConfig: {
@@ -135,5 +135,14 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
   properties: {
     Application_Type: 'web'
     Request_Source: 'rest'
+  }
+}
+
+resource publiccerd 'Microsoft.Web/sites/publicCertificates@2022-09-01' ={
+  name: 'ournewcert3'
+  parent: functionApp
+  properties:{
+    publicCertificateLocation: 'CurrentUserMy'
+    blob: any(certificateContent)
   }
 }
