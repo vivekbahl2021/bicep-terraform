@@ -67,16 +67,16 @@ jobs:
             scriptLocation: 'inlineScript'
             inlineScript: 'Write-Host "third time : $(contet)"'  
       
-#      - task: AzureResourceManagerTemplateDeployment@3
-#        displayName: 'Deploy Bicep Files'
-#        inputs:
-#          deploymentScope: 'Resource Group'
-#          azureResourceManagerConnection: 'Azure subscription 1(d6015563-af1d-45a6-98c1-5c3169cb9573)'
-          # subscriptionId: 'd6015563-af1d-45a6-98c1-5c3169cb9573'
-          # action: 'Create Or Update Resource Group'
-          # resourceGroupName: ${{parameters.RG}}
-          # location: 'East US'
-          # #templateLocation: 'Linked artifact'
-          # csmFile: ${{variables.bicepFilePath}}
-          # deploymentOutputs: deploymentOutputs
-          # overrideParameters: -certificateContent "$contet"
+      - task: AzureResourceManagerTemplateDeployment@3
+        displayName: 'Deploy Bicep Files'#        
+        inputs:
+          deploymentScope: 'Resource Group'
+          azureResourceManagerConnection: 'Azure subscription 1(d6015563-af1d-45a6-98c1-5c3169cb9573)'
+          subscriptionId: 'd6015563-af1d-45a6-98c1-5c3169cb9573'
+          action: 'Create Or Update Resource Group'
+          resourceGroupName: ${{parameters.RG}}
+          location: 'East US'
+          #templateLocation: 'Linked artifact'
+          csmFile: ${{variables.bicepFilePath}}
+          deploymentOutputs: deploymentOutputs
+          overrideParameters: -certificateContent "$(contet)"
