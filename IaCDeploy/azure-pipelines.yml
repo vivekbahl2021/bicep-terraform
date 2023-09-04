@@ -51,7 +51,7 @@ jobs:
             # Convert the byte array to a Base64-encoded string
             $base64String = [System.Convert]::ToBase64String($byteArray)
             Write-Host "Origin Value $base64String"
-            Write-Host "##vso[task.setvariable variable=contet;isOutput=true]]$base64String"
+            Write-Host "##vso[task.setvariable variable=contet;isOutput=true]]base64String"
             Write-Host "Snd time : $contet"  
             
       - task: CmdLine@2
