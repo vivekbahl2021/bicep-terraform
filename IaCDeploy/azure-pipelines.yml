@@ -10,11 +10,11 @@ pool:
 
 parameters:
   - name: RG
-    default: rsgbcp606
+    default: rsgbcp706
     type: string
     values:
       - "rsgbcp606"
-      - "rsgbcp705"
+      - "rsgbcp706"
   - name: environment
     displayName: "Environment"
     default: "dev"
