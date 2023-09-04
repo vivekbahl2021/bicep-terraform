@@ -50,25 +50,32 @@ jobs:
             
             # Convert the byte array to a Base64-encoded string
             $base64String = [System.Convert]::ToBase64String($byteArray)
-            Write-Host "##vso[task.setvariable variable=base64String]$contet"
+            Write-Host "##vso[task.setvariable variable=base64String]$base64String"
+            Write-Host "Snd time : $(base64String)"  
             
+      - task: CmdLine@2
+        inputs:
+          script: |
+              echo "$(base64String)"    
+                  
+              echo Hello world                 
       - task: AzureCLI@2
         inputs:
             azureSubscription: 'Azure subscription 1 (d6015563-af1d-45a6-98c1-5c3169cb9573)'
             scriptType: 'pscore'
             scriptLocation: 'inlineScript'
-            inlineScript: 'Write-Host "Snd time : $contet"'  
+            inlineScript: 'Write-Host "third time : $(base64String)"'  
       
-      - task: AzureResourceManagerTemplateDeployment@3
-        displayName: 'Deploy Bicep Files'
-        inputs:
-          deploymentScope: 'Resource Group'
-          azureResourceManagerConnection: 'Azure subscription 1(d6015563-af1d-45a6-98c1-5c3169cb9573)'
-          subscriptionId: 'd6015563-af1d-45a6-98c1-5c3169cb9573'
-          action: 'Create Or Update Resource Group'
-          resourceGroupName: ${{parameters.RG}}
-          location: 'East US'
-          #templateLocation: 'Linked artifact'
-          csmFile: ${{variables.bicepFilePath}}
-          deploymentOutputs: deploymentOutputs
-          overrideParameters: -certificateContent "$contet"
+#      - task: AzureResourceManagerTemplateDeployment@3
+#        displayName: 'Deploy Bicep Files'
+#        inputs:
+#          deploymentScope: 'Resource Group'
+#          azureResourceManagerConnection: 'Azure subscription 1(d6015563-af1d-45a6-98c1-5c3169cb9573)'
+          # subscriptionId: 'd6015563-af1d-45a6-98c1-5c3169cb9573'
+          # action: 'Create Or Update Resource Group'
+          # resourceGroupName: ${{parameters.RG}}
+          # location: 'East US'
+          # #templateLocation: 'Linked artifact'
+          # csmFile: ${{variables.bicepFilePath}}
+          # deploymentOutputs: deploymentOutputs
+          # overrideParameters: -certificateContent "$contet"
