@@ -50,7 +50,7 @@ jobs:
             
             # Convert the byte array to a Base64-encoded string
             $base64String = [System.Convert]::ToBase64String($byteArray)
-            Write-Host "##vso[task.setvariable variable=$contet]$base64String"
+            Write-Host "##vso[task.setvariable variable=$contet]$env:base64String"
             
       - task: AzureCLI@2
         inputs:
