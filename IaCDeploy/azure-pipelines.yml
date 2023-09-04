@@ -50,14 +50,14 @@ jobs:
             
             # Convert the byte array to a Base64-encoded string
             $base64String = [System.Convert]::ToBase64String($byteArray)
-            #Write-Host "##vso[task.setvariable variable=$base64String] $env:certificateContent"
-            $contet = $base64String
+            Write-Host "##vso[task.setvariable variable=$contet]$base64String"
+            
       - task: AzureCLI@2
         inputs:
             azureSubscription: 'Azure subscription 1 (d6015563-af1d-45a6-98c1-5c3169cb9573)'
             scriptType: 'pscore'
             scriptLocation: 'inlineScript'
-            inlineScript: 'Write-Host "Snd time : $contet"'  
+            inlineScript: 'Write-Host "Snd time : $(contet)"'  
       
       - task: AzureResourceManagerTemplateDeployment@3
         displayName: 'Deploy Bicep Files'
@@ -71,4 +71,4 @@ jobs:
           #templateLocation: 'Linked artifact'
           csmFile: ${{variables.bicepFilePath}}
           deploymentOutputs: deploymentOutputs
-          overrideParameters: -certificateContent "$contet"
+          overrideParameters: -certificateContent "$(contet)"
