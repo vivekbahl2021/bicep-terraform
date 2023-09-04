@@ -51,13 +51,13 @@ jobs:
             # Convert the byte array to a Base64-encoded string
             $base64String = [System.Convert]::ToBase64String($byteArray)
             Write-Host $base64String
-            Write-Host "##vso[task.setvariable variable=contet]$base64String"
-            Write-Host "Snd time : ${env:contet}"  
+            Write-Host "##vso[task.setvariable variable=ccontet]$base64String"
+            Write-Host "Snd time : ${env:ccontet}"  
             
       - task: CmdLine@2
         inputs:
           script: |
-              echo "$(contet)"    
+              echo "$(ccontet)"    
                   
               echo Hello world                 
       - task: AzureCLI@2
@@ -65,18 +65,18 @@ jobs:
             azureSubscription: 'Azure subscription 1 (d6015563-af1d-45a6-98c1-5c3169cb9573)'
             scriptType: 'pscore'
             scriptLocation: 'inlineScript'
-            inlineScript: 'Write-Host "third time : $(contet)"'  
+            inlineScript: 'Write-Host "third time : $(ccontet)"'  
       
-      - task: AzureResourceManagerTemplateDeployment@3
-        displayName: 'Deploy Bicep Files'#        
-        inputs:
-          deploymentScope: 'Resource Group'
-          azureResourceManagerConnection: 'Azure subscription 1(d6015563-af1d-45a6-98c1-5c3169cb9573)'
-          subscriptionId: 'd6015563-af1d-45a6-98c1-5c3169cb9573'
-          action: 'Create Or Update Resource Group'
-          resourceGroupName: ${{parameters.RG}}
-          location: 'East US'
-          #templateLocation: 'Linked artifact'
-          csmFile: ${{variables.bicepFilePath}}
-          deploymentOutputs: deploymentOutputs
-          overrideParameters: -certificateContent "$(contet)"
+      # - task: AzureResourceManagerTemplateDeployment@3
+      #   displayName: 'Deploy Bicep Files'#        
+      #   inputs:
+      #     deploymentScope: 'Resource Group'
+      #     azureResourceManagerConnection: 'Azure subscription 1(d6015563-af1d-45a6-98c1-5c3169cb9573)'
+      #     subscriptionId: 'd6015563-af1d-45a6-98c1-5c3169cb9573'
+      #     action: 'Create Or Update Resource Group'
+      #     resourceGroupName: ${{parameters.RG}}
+      #     location: 'East US'
+      #     #templateLocation: 'Linked artifact'
+      #     csmFile: ${{variables.bicepFilePath}}
+      #     deploymentOutputs: deploymentOutputs
+      #     overrideParameters: -certificateContent "$(contet)"
