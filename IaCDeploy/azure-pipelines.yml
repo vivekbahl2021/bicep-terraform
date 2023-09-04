@@ -10,7 +10,7 @@ pool:
 
 parameters:
   - name: RG
-    default: rsgbcp605
+    default: rsgbcp606
     type: string
     values:
       - "rsgbcp606"
@@ -36,21 +36,23 @@ jobs:
     variables:
     - template: "${{parameters.environment}}/pipelineparams.${{parameters.environment}}.yaml"
     - name: bicepFilePath
-      value: "$(Build.SourceDirectory)/IaCDeployment/main.bicep"
+      value: "$(Build.SourcesDirectory)/IaCDeploy/main.bicep"
 
     steps:
       - task: AzureCLI@2
         inputs:
           azureSubscription: 'Azure subscription 1 (d6015563-af1d-45a6-98c1-5c3169cb9573)'
-          scriptType: 'ps'
+          scriptType: 'pscore'
           scriptLocation: 'inlineScript'
           inlineScript: |
             # Read the byte array from a file (replace with your own method)
-            $byteArray = [System.IO.File]::ReadAllBytes("$(Build.SourceDirectory)/IaCDeployment/portalazure.cer")
+            $byteArray = [System.IO.File]::ReadAllBytes("$(Build.SourcesDirectory)/IaCDeploy/portalazure.cer")
             
             # Convert the byte array to a Base64-encoded string
             $base64String = [System.Convert]::ToBase64String($byteArray)
-            Write-Host "##vso[task.setvariable variable=$byteArray] $env:certificateContent"
+            Write-Host "##vso[task.setvariable variable=$base64String] $env:certificateContent"
+            Write-Host "The value of myVariable is: $base64String"
+
       - task: AzureResourceManagerTemplateDeployment@3
         displayName: 'Deploy Bicep Files'
         inputs:
@@ -58,8 +60,10 @@ jobs:
           azureResourceManagerConnection: 'Azure subscription 1(d6015563-af1d-45a6-98c1-5c3169cb9573)'
           subscriptionId: 'd6015563-af1d-45a6-98c1-5c3169cb9573'
           action: 'Create Or Update Resource Group'
-          resourceGroupName: $(RG)
+          resourceGroupName: ${{parameters.RG}}
           location: 'East US'
-          templateLocation: 'Linked artifact'
-          csmFile: 'main.bicep'
+          #templateLocation: 'Linked artifact'
+          csmFile: ${{variables.bicepFilePath}}
           deploymentMode: Incremental
+          overrideParameters: >
+            -certificateContent "$(base64String)"
