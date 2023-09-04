@@ -38,7 +38,8 @@ param runtime string = 'dotnet'
 var functionAppName = appName
 var hostingPlanName = appName
 var applicationInsightsName = appName
-var storageAccountName = '${uniqueString(resourceGroup().id)}azfunctions'
+var storageAccountName = '$cosmosDBAccountName-azfunctions'
+//var storageAccountName = '${uniqueString(resourceGroup().id)}azfunctions'
 var functionWorkerRuntime = runtime
 var cosmosDBKey = listKeys(cosmosDBAccountId, cosmosDBApiVersion).primaryMasterKey
 
