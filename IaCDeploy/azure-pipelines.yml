@@ -78,7 +78,7 @@ jobs:
           failOnStandardError: false
           inlineScript: |
             Write-Host "##vso[task.setvariable variable=ccontet]$base64String"
-            $result=$('az deployment group what-if --name "what-if-101" --template-file ${{variables.bicepFilePath}} -g ${{parameters.RG}} -p certificateContent="$(ccontet)"')
+            $result=$(az deployment group what-if --name "what-if-101" --template-file ${{variables.bicepFilePath}} -g ${{parameters.RG}} -p certificateContent="$(ccontet)")
             Write-Host "##vso[task.setvariable variable=azurecliresult]$result"
       
       - task: AzureCLI@2
