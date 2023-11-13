@@ -10,10 +10,10 @@ pool:
 
 parameters:
   - name: RG
-    default: rsgbcp205
+    default: resgrpazaiserv
     type: string
     values:
-      - "rsgbcp205"
+      - "resgrpazaiserv"
       - "rsgbcp706"
   - name: environment
     displayName: "Environment"
