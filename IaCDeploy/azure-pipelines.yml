@@ -66,17 +66,23 @@ jobs:
             scriptType: 'pscore'
             scriptLocation: 'inlineScript'
             inlineScript: 'Write-Host "third time : $(ccontet)"'  
-      
-      - task: AzureResourceManagerTemplateDeployment@3
-        displayName: 'Deploy Bicep Files'#        
+      - task: AzureCLI@2
         inputs:
-          deploymentScope: 'Resource Group'
-          azureResourceManagerConnection: 'Azure subscription 1(d6015563-af1d-45a6-98c1-5c3169cb9573)'
-          subscriptionId: 'd6015563-af1d-45a6-98c1-5c3169cb9573'
-          action: 'Create Or Update Resource Group'
-          resourceGroupName: ${{parameters.RG}}
-          location: 'East US'
-          #templateLocation: 'Linked artifact'
-          csmFile: ${{variables.bicepFilePath}}
-          deploymentOutputs: deploymentOutputs
-          overrideParameters: -certificateContent "$(ccontet)"
+          azureSubscription: 'Azure subscription 1 (d6015563-af1d-45a6-98c1-5c3169cb9573)'
+          scriptType: 'pscore'
+          scriptLocation: 'inlineScript'
+          inlineScript: 'az deployment sub validate --name validate-101 --template-file ${{variables.bicepFilePath}} --location "East US"'
+
+      # - task: AzureResourceManagerTemplateDeployment@3
+      #   displayName: 'Deploy Bicep Files'#        
+      #   inputs:
+      #     deploymentScope: 'Resource Group'
+      #     azureResourceManagerConnection: 'Azure subscription 1(d6015563-af1d-45a6-98c1-5c3169cb9573)'
+      #     subscriptionId: 'd6015563-af1d-45a6-98c1-5c3169cb9573'
+      #     action: 'Create Or Update Resource Group'
+      #     resourceGroupName: ${{parameters.RG}}
+      #     location: 'East US'
+      #     #templateLocation: 'Linked artifact'
+      #     csmFile: ${{variables.bicepFilePath}}
+      #     deploymentOutputs: deploymentOutputs
+      #     overrideParameters: -certificateContent "$(ccontet)"
