@@ -67,13 +67,14 @@ jobs:
             scriptType: 'pscore'
             scriptLocation: 'inlineScript'
             inlineScript: 'Write-Host "third time : $(ccontet)"'  
+      
       - task: AzureCLI@2
-        displayName: "validate command"
+        displayName: "What-if command"
         inputs:
           azureSubscription: 'Azure subscription 1 (d6015563-af1d-45a6-98c1-5c3169cb9573)'
           scriptType: 'pscore'
           scriptLocation: 'inlineScript'
-          inlineScript: 'az deployment group validate --name "validate-101" --template-file ${{variables.bicepFilePath}} -g ${{parameters.RG}} -p certificateContent="$(ccontet)"'
+          inlineScript: 'az deployment group what-if --name "what-if-101" --template-file ${{variables.bicepFilePath}} -g ${{parameters.RG}} -p certificateContent="$(ccontet)"'
 
       # - task: AzureResourceManagerTemplateDeployment@3
       #   displayName: 'Deploy Bicep Files'#        
