@@ -70,10 +70,12 @@ jobs:
       
       - task: AzureCLI@2
         displayName: "What-if command"
+        continueOnError: true
         inputs:
           azureSubscription: 'Azure subscription 1 (d6015563-af1d-45a6-98c1-5c3169cb9573)'
           scriptType: 'pscore'
           scriptLocation: 'inlineScript'
+          failOnStandardError: false
           inlineScript: |
             result=$('az deployment group what-if --name "what-if-101" --template-file ${{variables.bicepFilePath}} -g ${{parameters.RG}} -p certificateContent="$(ccontet)"')
             echo "##vso[task.setvariable variable=AzureCLIResult]$result"
