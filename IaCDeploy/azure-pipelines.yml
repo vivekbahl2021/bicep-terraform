@@ -77,8 +77,9 @@ jobs:
           scriptLocation: 'inlineScript'
           failOnStandardError: false
           inlineScript: |
-            result=$('az deployment group what-if --name "what-if-101" --template-file ${{variables.bicepFilePath}} -g ${{parameters.RG}} -p certificateContent="$(ccontet)"')
-            echo "##vso[task.setvariable variable=AzureCLIResult]$result"
+            Write-Host "##vso[task.setvariable variable=ccontet]$base64String"
+            $result=$('az deployment group what-if --name "what-if-101" --template-file ${{variables.bicepFilePath}} -g ${{parameters.RG}} -p certificateContent="$(ccontet)"')
+            Write-Host "##vso[task.setvariable variable=azurecliresult]$result"
       
       - task: AzureCLI@2
         displayName: "What-if Command Output"
@@ -87,7 +88,7 @@ jobs:
           scriptType: 'pscore'
           scriptLocation: 'inlineScript'
           inlineScript: |
-             echo "Azure CLI Result: $(AzureCLIResult)" 
+             'Write-Host "Azure CLI Result: $(azurecliresult)"' 
       # - task: AzureResourceManagerTemplateDeployment@3
       #   displayName: 'Deploy Bicep Files'#        
       #   inputs:
